@@ -1,44 +1,115 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using MessageApp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MessageApp.Services;
 
 namespace MessageApp.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
+        private readonly MessageDBContext db;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public SampleDataController(MessageDBContext _db)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            db = _db;
+        }
+        //[HttpPost]
+        //public IActionResult Signup([FromBody] UserData userData)
+        //{
+        //    var query = (from user in db.UserData
+        //                 where user.UserName == userData.UserName
+        //                 && user.Email == userData.Email
+        //                 && user.Password == userData.Password
+        //                 select user).FirstOrDefault();
 
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        //    if (query != null)
+        //    {
+        //        return Content("Invalid");
+        //    }
+
+        //    db.UserData.Add(userData);
+        //    db.SaveChangesAsync();
+
+        //    return new ObjectResult(userData);
+        //}
+
+
+        //[HttpPost]
+        //[Route("api/SampleData/Signup")]
+        //public IActionResult Signup([FromBody] UserData userData)
+        //{
+        //    var query = (from user in db.UserData
+        //                 where user.UserName == userData.UserName
+        //                 && user.Email == userData.Email
+        //                 && user.Password == userData.Password
+        //                 select user).FirstOrDefault();
+
+        //    if (query != null)
+        //    {
+        //        return Content("Invalid");
+        //    }
+
+        //    db.UserData.Add(userData);
+        //    db.SaveChangesAsync();
+
+        //    return new ObjectResult(userData);
+        //}
+
+        [HttpPost("{email}")]
+        public IActionResult Signup([FromQuery(Name = "email")] string email, [FromQuery(Name = "userName")] string userName, [FromQuery(Name = "password")] string password)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
+            CookieHelper cookieHelper = new CookieHelper(_httpContextAccessor, Request,
+                                                         Response);
+
+            byte[] validatePassword = Encoding.ASCII.GetBytes(password);
+
+            UserData userData = new UserData();
+
+            userData.Email = email;
+            userData.UserName = userName;
+            userData.Password = validatePassword;
+            userData.Status = "Online";
+
+            db.UserData.Add(userData);
+            db.SaveChanges();
+
+            cookieHelper.Set("userID", (userData.UserId).ToString(), 1);
+
+            return new ObjectResult(userData);
         }
 
-        public class WeatherForecast
+        [HttpGet("{password}")]
+        public IActionResult Login([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password)
         {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
+            CookieHelper cookieHelper = new CookieHelper(_httpContextAccessor, Request,
+                                                         Response);
 
-            public int TemperatureF
+            byte[] validatePassword = Encoding.ASCII.GetBytes(password);
+
+            var query = (from user in db.UserData
+                         where user.Email == email &&
+                         user.Password == validatePassword
+                         select user).FirstOrDefault();
+
+            if(query == null)
             {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
+                return Redirect("https://localhost:44379/signup");
             }
+
+            query.Status = "Online";
+
+            db.UserData.Update(query);
+            db.SaveChanges();
+
+            cookieHelper.Set("userID", (query.UserId).ToString(), 1);
+
+            return new ObjectResult(query);
         }
     }
 }
