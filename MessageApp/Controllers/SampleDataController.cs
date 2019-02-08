@@ -19,47 +19,6 @@ namespace MessageApp.Controllers
         {
             db = _db;
         }
-        //[HttpPost]
-        //public IActionResult Signup([FromBody] UserData userData)
-        //{
-        //    var query = (from user in db.UserData
-        //                 where user.UserName == userData.UserName
-        //                 && user.Email == userData.Email
-        //                 && user.Password == userData.Password
-        //                 select user).FirstOrDefault();
-
-        //    if (query != null)
-        //    {
-        //        return Content("Invalid");
-        //    }
-
-        //    db.UserData.Add(userData);
-        //    db.SaveChangesAsync();
-
-        //    return new ObjectResult(userData);
-        //}
-
-
-        //[HttpPost]
-        //[Route("api/SampleData/Signup")]
-        //public IActionResult Signup([FromBody] UserData userData)
-        //{
-        //    var query = (from user in db.UserData
-        //                 where user.UserName == userData.UserName
-        //                 && user.Email == userData.Email
-        //                 && user.Password == userData.Password
-        //                 select user).FirstOrDefault();
-
-        //    if (query != null)
-        //    {
-        //        return Content("Invalid");
-        //    }
-
-        //    db.UserData.Add(userData);
-        //    db.SaveChangesAsync();
-
-        //    return new ObjectResult(userData);
-        //}
 
         [HttpPost("{email}")]
         public IActionResult Signup([FromQuery(Name = "email")] string email, [FromQuery(Name = "userName")] string userName, [FromQuery(Name = "password")] string password)

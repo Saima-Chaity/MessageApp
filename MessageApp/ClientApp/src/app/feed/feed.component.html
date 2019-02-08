@@ -1,0 +1,18 @@
+<div>
+  <ul *ngFor="let message of allMessages">
+    <li>
+      {{message.sendMessage}}<br />
+      {{message.sendBy}}<br />
+      {{message.sendTime}}
+    </li>
+  </ul>
+</div>
+
+
+<div>
+  <input class="message"
+         [(ngModel)]="message"
+         (keydown)="handleSubmit($event)" />
+
+  <button [disabled]="!message" type="submit" (click)="send()">Send</button>
+</div>

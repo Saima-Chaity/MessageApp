@@ -10,7 +10,9 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { AuthService } from './services/auth.service';
 import { ChatService } from './services/chat.service';
-import { ChatFormComponent } from './chat-form/chat-form.component';
+import { FeedComponent } from './feed/feed.component';
+import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { ChatFormComponent } from './chat-form/chat-form.component';
     NavMenuComponent,
     LoginFormComponent,
     SignupFormComponent,
-    ChatFormComponent
+    FeedComponent,
+    ChatRoomComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +34,8 @@ import { ChatFormComponent } from './chat-form/chat-form.component';
       { path: '', component: LoginFormComponent, pathMatch: 'full' },
       { path: 'login', component: LoginFormComponent },
       { path: 'signup', component: SignupFormComponent },
-      { path: 'chat', component: ChatFormComponent },
+      //{ path: 'feed', component: FeedComponent },
+      { path: 'chatroom', component: ChatRoomComponent },
     ])
   ],
   providers: [AuthService, ChatService],
