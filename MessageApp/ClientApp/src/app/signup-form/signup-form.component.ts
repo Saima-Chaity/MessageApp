@@ -24,7 +24,7 @@ export class SignupFormComponent implements OnInit {
     const userName = this.userName;
     this.authService.signup(email, userName, password)
       .subscribe(data => {
-        this.router.navigate(['/chat']);
+        this.router.navigate(['/chatroom']);
       })
   }
 }

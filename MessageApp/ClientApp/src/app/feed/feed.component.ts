@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { Router } from '@angular/router';
-import { concat } from 'rxjs/operator/concat';
 
 @Component({
-  selector: 'app-chat-form',
-  templateUrl: './chat-form.component.html',
-  styleUrls: ['./chat-form.component.css']
+  selector: 'app-feed',
+  templateUrl: './feed.component.html',
+  styleUrls: ['./feed.component.css']
 })
-export class ChatFormComponent implements OnInit {
+export class FeedComponent implements OnInit {
 
   message: string;
   file: string;
@@ -18,21 +17,21 @@ export class ChatFormComponent implements OnInit {
   constructor(private chatService: ChatService, private router: Router) { }
 
   ngOnInit() {
+    this.getAllMessages();
   }
 
   send() {
     if (this.message && !this.file) {
-      this.chatService.sendMessage(this.message).subscribe();
+      this.chatService.sendMessage(this.message).subscribe(data => {
+        this.getAllMessages();
+      });
       this.message = '';
-      this.getAllMessages();
     }
   }
 
   getAllMessages() {
     this.chatService.GetAllMessage().subscribe(data => {
-      console.log(data._body);
-      console.log(data);
-      this.allMessages = data._body;
+      this.allMessages = data.json();
     });
   }
 
@@ -41,4 +40,5 @@ export class ChatFormComponent implements OnInit {
       this.send();
     }
   }
+
 }

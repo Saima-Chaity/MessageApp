@@ -14,9 +14,8 @@ namespace MessageApp.Controllers
     {
         private readonly MessageDBContext db;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private string userID { get; set; }
+        public string userID { get; set; }
         private string userName { get; set; }
-        private IEnumerable<Message> AllMessages { get; set; }
         public MessageController(MessageDBContext _db)
         {
             db = _db;
@@ -44,16 +43,21 @@ namespace MessageApp.Controllers
             db.Message.Add(msg);
             db.SaveChanges();
 
-            return new ObjectResult(AllMessages);
+            return new ObjectResult(msg);
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Message> GetMessages()
+        public IActionResult GetMessages()
         {
-            AllMessages = from msgs in db.Message
-                        select msgs;
+            var query = from msgs in db.Message
+                          select new
+                          {
+                              SendMessage = msgs.SentMessage,
+                              SendBy = msgs.UserName,
+                              SendTime = msgs.SentAt,
+                          };
 
-            return AllMessages;
+            return new ObjectResult(query);
         }
     }
 }
