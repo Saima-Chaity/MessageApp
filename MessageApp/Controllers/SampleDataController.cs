@@ -39,6 +39,7 @@ namespace MessageApp.Controllers
             db.SaveChanges();
 
             cookieHelper.Set("userID", (userData.UserId).ToString(), 1);
+            HttpContext.Session.SetString("userID", (userData.UserId).ToString());
 
             return new ObjectResult(userData);
         }

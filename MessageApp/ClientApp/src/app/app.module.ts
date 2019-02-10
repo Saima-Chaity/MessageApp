@@ -13,6 +13,8 @@ import { ChatService } from './services/chat.service';
 import { FeedComponent } from './feed/feed.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { ChatFormComponent } from './chat-form/chat-form.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     SignupFormComponent,
     FeedComponent,
     ChatRoomComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserListComponent,
+    ChatFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

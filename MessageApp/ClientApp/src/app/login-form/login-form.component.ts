@@ -21,6 +21,7 @@ export class LoginFormComponent implements OnInit {
 
     this.authService.login(email, password)
       .subscribe(data => {
+        window.location.reload();
         this.router.navigate(['/chatroom']);
       })
   };

@@ -22,9 +22,7 @@ export class AuthService {
       headers: new Headers(headerDict),
     }
 
-    return this.http.get(this.site, requestOptions)
-      .pipe(map(this.extractData),
-        catchError(this.handleError.bind(this)))
+    return this.http.get(this.site, requestOptions);
   }
 
   signup(email: string, userName: string, password: any): Observable<any> {
@@ -44,9 +42,7 @@ export class AuthService {
       headers: new Headers(headerDict),
     }
 
-    return this.http.post(this.site, requestOptions)
-      .pipe(map(this.extractData),
-        catchError(this.handleError.bind(this)))
+    return this.http.post(this.site, requestOptions);
   }
 
   getCurrentUser(): Observable<any> {
@@ -66,13 +62,38 @@ export class AuthService {
 
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body;
+  logout(): Observable<any> {
+
+    this.site = "https://localhost:44379/api/User/Logout";
+
+    const headerDict = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+
+    const requestOptions = {
+      headers: new Headers(headerDict),
+    }
+
+    return this.http.get(this.site, requestOptions);
+
   }
 
-  private handleError(error: any) {
-    throw (error);
+  getUserList(): Observable<any> {
+
+    this.site = "https://localhost:44379/api/User/GetUserList";
+
+    const headerDict = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+
+    const requestOptions = {
+      headers: new Headers(headerDict),
+    }
+
+    return this.http.get(this.site, requestOptions);
+
   }
 
 }

@@ -24,6 +24,7 @@ export class UserProfileComponent implements OnInit {
       this.name = data.json()["name"];
       this.email = data.json()["email"];
       this.status = data.json()["status"];
+      sessionStorage.setItem("userId", data.json()["userId"]);
     });
   }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace MessageApp
 {
@@ -44,8 +45,13 @@ namespace MessageApp
                     });
             });
 
+            services.AddSession(options => {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +71,8 @@ namespace MessageApp
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseCors("AllowAll");
+            app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
