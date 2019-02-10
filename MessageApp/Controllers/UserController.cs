@@ -32,7 +32,36 @@ namespace MessageApp.Controllers
                          select new {
                              name = user.UserName,
                              email = user.Email,
-                             status = user.Status}).FirstOrDefault();
+                             status = user.Status,
+                             userId = user.UserId}).FirstOrDefault();
+
+            return new ObjectResult(query);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult Logout()
+        {
+            CookieHelper cookieHelper = new CookieHelper(_httpContextAccessor, Request,
+                                             Response);
+
+            string userID = cookieHelper.Get("userID");
+
+            var query = (from user in db.UserData
+                         where user.UserId == Int32.Parse(userID)
+                         select user).FirstOrDefault();
+
+            query.Status = "Offline";
+            db.UserData.Update(query);
+            db.SaveChanges();
+
+            return new ObjectResult(query);
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetUserList()
+        {
+            var query = (from user in db.UserData
+                         select user);
 
             return new ObjectResult(query);
         }

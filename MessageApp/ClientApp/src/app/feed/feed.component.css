@@ -1,0 +1,31 @@
+.sender {
+  border: 1px solid gainsboro;
+  padding: 10px 10px;
+  background: skyblue;
+  margin: 10px 0px 10px 150px;
+  border-radius: 4%;
+}
+
+.receiver {
+  border: 1px solid gainsboro;
+  padding: 10px 10px;
+  background: salmon;
+  margin: 10px 150px 10px 0px;
+  border-radius: 4%;
+}
+
+.messageDetails p {
+  display: inline;
+}
+
+.userName {
+  color: green;
+  font-weight: bold;
+  padding: 0px 5px;
+}
+
+.time {
+  font-weight: bold;
+  padding: 0px 5px;
+}
+

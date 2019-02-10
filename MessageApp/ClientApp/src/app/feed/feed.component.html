@@ -1,18 +1,35 @@
 <div>
-  <ul *ngFor="let message of allMessages">
-    <li>
-      {{message.sendMessage}}<br />
-      {{message.sendBy}}<br />
-      {{message.sendTime}}
-    </li>
-  </ul>
+  <div class="receiver">
+    <div *ngFor="let msgReceiver of messageReceiver">
+      <p>{{msgReceiver.sendMessage}}</p>
+      <div class="messageDetails">
+        <p>Sent By</p>
+        <p class="userName">{{msgReceiver.sendBy}}</p>
+        <p class="time">{{msgReceiver.sendTime | date:'medium'}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sender">
+    <div *ngFor="let msgSender of messageSender">
+      <p>{{msgSender.sendMessage}}</p>
+      <div class="messageDetails">
+        <p>Sent By</p>
+        <p class="userName">{{msgSender.sendBy}}</p>
+        <p class="time">{{msgSender.sendTime | date:'medium'}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="button">
+    <input class="message"
+           [(ngModel)]="message"
+           (keydown)="handleSubmit($event)" />
+
+    <button [disabled]="!message" type="submit" (click)="send()">Send</button>
+  </div>
+
 </div>
 
 
-<div>
-  <input class="message"
-         [(ngModel)]="message"
-         (keydown)="handleSubmit($event)" />
 
-  <button [disabled]="!message" type="submit" (click)="send()">Send</button>
-</div>
