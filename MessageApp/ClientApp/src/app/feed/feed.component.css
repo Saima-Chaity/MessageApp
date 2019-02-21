@@ -29,3 +29,9 @@
   padding: 0px 5px;
 }
 
+.messages {
+  border: 1px dotted gainsboro;
+  border-radius: 4%;
+  background: gainsboro;
+  margin: 5px auto;
+}

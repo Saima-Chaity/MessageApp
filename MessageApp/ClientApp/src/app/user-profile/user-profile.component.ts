@@ -11,6 +11,7 @@ export class UserProfileComponent implements OnInit {
   name: string;
   email: string;
   status: string;
+  profilePhoto: any;
 
   constructor(private authService: AuthService) { }
 
@@ -21,10 +22,14 @@ export class UserProfileComponent implements OnInit {
   currentUser() {
     this.authService.getCurrentUser().subscribe(data =>
     {
+      console.log(data.json());
       this.name = data.json()["name"];
       this.email = data.json()["email"];
       this.status = data.json()["status"];
       sessionStorage.setItem("userId", data.json()["userId"]);
+      if (data.json()["profilePhoto"] != null) {
+        this.profilePhoto = data.json()["profilePhoto"];
+      }
     });
   }
 }

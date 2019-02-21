@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -14,11 +14,22 @@ export class FeedComponent implements OnInit {
   message: string;
   file: string;
   url: any;
+  email: string;
+  password: string
   allMessages: Array<any>;
   messageSender: any = [];
   messageReceiver: any = [];
+  userId: any;
 
-  constructor(private chatService: ChatService, private router: Router) {
+  constructor(private chatService: ChatService, private authService: AuthService, private router: Router) {
+    //this.userId = sessionStorage.getItem('userId');
+    //if (sessionStorage.getItem('userId')) {
+    //  this.authService.validateUser(this.userId).subscribe(data => {
+    //    if (data) {
+    //      console.log(data);
+    //    }
+    //  })
+    //}
   }
 
   ngOnInit() {
@@ -26,17 +37,9 @@ export class FeedComponent implements OnInit {
   }
 
   getAllMessages() {
-    this.chatService.GetAllMessage().subscribe(data => {
-      this.allMessages = data.json();
-      for (let i = 0; i < this.allMessages.length; i++) {
-        if (this.allMessages[i]["sendBy"] === "Saima") {
-          this.messageSender.push(this.allMessages[i]);
-        }
-        else {
-          this.messageReceiver.push(this.allMessages[i]);
-        }
-      }
-    });
+    this.chatService.GetAllMessage().subscribe(data =>
+      this.allMessages = data.json()
+    )
   }
 
   send() {

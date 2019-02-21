@@ -29,16 +29,12 @@ namespace MessageApp.Controllers
 
             userID = cookieHelper.Get("userID");
 
-            userName = (from user in db.UserData
-                        where user.UserId == Int32.Parse(userID)
-                        select user.UserName).FirstOrDefault();
-
             Message msg = new Message();
             DateTime dateTime = DateTime.Now;
 
-            msg.UserName = userName;
             msg.SentMessage = message;
             msg.SentAt = dateTime;
+            msg.UserId = Int32.Parse(userID);
 
             db.Message.Add(msg);
             db.SaveChanges();
@@ -49,15 +45,19 @@ namespace MessageApp.Controllers
         [HttpGet("[action]")]
         public IActionResult GetMessages()
         {
-            var query = from msgs in db.Message
-                          select new
-                          {
-                              SendMessage = msgs.SentMessage,
-                              SendBy = msgs.UserName,
-                              SendTime = msgs.SentAt,
+
+            var msgQuery = from msgs in db.Message
+                           from u in db.UserData
+                           where msgs.UserId == u.UserId
+                           select new
+                           {
+                               SendMessage = msgs.SentMessage,
+                               SendBy = u.UserName,
+                               SendTime = msgs.SentAt,
+                               userId = msgs.UserId,
                           };
 
-            return new ObjectResult(query);
+            return new ObjectResult(msgQuery);
         }
     }
 }

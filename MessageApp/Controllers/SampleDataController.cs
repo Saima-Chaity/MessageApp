@@ -15,9 +15,11 @@ namespace MessageApp.Controllers
     {
         private readonly MessageDBContext db;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public SampleDataController(MessageDBContext _db)
+        private string userID { get; set; }
+        public SampleDataController(MessageDBContext _db, IHttpContextAccessor _httpContextAccessor)
         {
             db = _db;
+            this._httpContextAccessor = _httpContextAccessor;
         }
 
         [HttpPost("{email}")]
@@ -69,7 +71,15 @@ namespace MessageApp.Controllers
 
             cookieHelper.Set("userID", (query.UserId).ToString(), 1);
 
-            return new ObjectResult(query);
+            userID = cookieHelper.Get("userID");
+
+            return new ObjectResult(userID);
         }
+
+        //[HttpGet("{userId}")]
+        //public IActionResult ValidateUser([FromQuery(Name = "userId")]string userId)
+        //{
+        //    return new ObjectResult(userId);
+        //}
     }
 }
