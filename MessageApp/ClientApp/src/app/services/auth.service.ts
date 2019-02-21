@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { concat } from 'rxjs/operator/concat';
+import { prepareProfile } from 'selenium-webdriver/firefox';
+import { HttpHeaders  } from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
@@ -96,4 +100,40 @@ export class AuthService {
 
   }
 
+  validateUser(userId : any): Observable<any> {
+
+    this.site = "https://localhost:44379/api/SampleData/ValidateUser?userId=" + userId;
+
+    const headerDict = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+
+    const requestOptions = {
+      headers: new Headers(headerDict),
+    }
+
+    return this.http.get(this.site, requestOptions);
+
+  }
+
+  saveProfileSettings(imageString: any): Observable<any> {
+
+    this.site = "https://localhost:44379/api/User/SaveUserProfile";
+
+    const headerDict = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+
+    const requestOptions = {
+      headers: new Headers(headerDict),
+    }
+
+    return this.http.post(this.site, imageString, requestOptions);
+  }
+
 }
+
+
+

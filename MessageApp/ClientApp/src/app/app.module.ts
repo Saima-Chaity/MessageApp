@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { CookieService } from 'ngx-cookie-service';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
@@ -14,7 +15,7 @@ import { FeedComponent } from './feed/feed.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { ChatFormComponent } from './chat-form/chat-form.component';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { ChatFormComponent } from './chat-form/chat-form.component';
     ChatRoomComponent,
     UserProfileComponent,
     UserListComponent,
-    ChatFormComponent
+    ProfileSettingsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,11 +39,11 @@ import { ChatFormComponent } from './chat-form/chat-form.component';
       { path: '', component: LoginFormComponent, pathMatch: 'full' },
       { path: 'login', component: LoginFormComponent },
       { path: 'signup', component: SignupFormComponent },
-      //{ path: 'feed', component: FeedComponent },
       { path: 'chatroom', component: ChatRoomComponent },
+      { path: 'profile', component: ProfileSettingsComponent },
     ])
   ],
-  providers: [AuthService, ChatService],
+  providers: [AuthService, ChatService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
