@@ -1,21 +1,7 @@
-<div>
-  <div class="messages" *ngFor="let msgs of allMessages">
-    <p>{{msgs.sendMessage}}</p>
-    <div class="messageDetails">
-      <p>Sent By</p>
-      <p class="userName">{{msgs.sendBy}}</p>
-      <p class="time">{{msgs.sendTime | date:'medium'}}</p>
-    </div>
+<div class="feedContainer">
+  <div *ngFor="let message of feed">
+    <app-message [chatMessage]=message></app-message>
   </div>
-</div>
-
-
-<div class="button">
-  <input class="message"
-         [(ngModel)]="message"
-         (keydown)="handleSubmit($event)" />
-
-  <button [disabled]="!message" type="submit" (click)="send()">Send</button>
 </div>
 
 

@@ -16,6 +16,8 @@ import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { ChatFormComponent } from './chat-form/chat-form.component';
+import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { ProfileSettingsComponent } from './profile-settings/profile-settings.co
     UserProfileComponent,
     UserListComponent,
     ProfileSettingsComponent,
+    ChatFormComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
