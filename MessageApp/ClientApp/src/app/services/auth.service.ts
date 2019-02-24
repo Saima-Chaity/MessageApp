@@ -100,9 +100,9 @@ export class AuthService {
 
   }
 
-  validateUser(userId : any): Observable<any> {
+  getUser(userId : number): Observable<any> {
 
-    this.site = "https://localhost:44379/api/SampleData/ValidateUser?userId=" + userId;
+    this.site = "https://localhost:44379/api/User/ValidateUser?userId=" + userId;
 
     const headerDict = {
       "Content-Type": "application/json",

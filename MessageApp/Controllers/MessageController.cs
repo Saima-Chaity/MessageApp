@@ -50,7 +50,15 @@ namespace MessageApp.Controllers
             var query = from msgs in db.Message
                         from u in db.UserData
                         where msgs.UserId == u.UserId
-                        select msgs;
+                        select new
+                        {
+                            sendMessage = msgs.SentMessage,
+                            sendTime= msgs.SentAt,
+                            sendImage = msgs.SentFile,
+                            sendBy = u.UserName,
+                            userProfileImage = u.UserImage,
+                            userEmail = u.Email
+                        };
 
             return new ObjectResult(query);
         }
