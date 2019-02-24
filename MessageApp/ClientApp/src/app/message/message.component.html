@@ -1,8 +1,31 @@
 
-<p *ngIf="messageContent" class="messageContent">{{messageContent}}</p>
-<img class="image" *ngIf="url" [src]="url" />
-<div style="clear:both;" class="messageDetails">
-  <p>Sent By</p>
-  <p class="userName">{{userName}}</p>
-  <p class="time">{{timeStamp | date:'shortTime'}}</p>
+<div class="sender" *ngIf="isOwnMessage">
+  <div class="senderProfile" *ngIf="isOwnMessage">
+    <img class="profilePhoto" *ngIf="userImage" [src]="userImage" />
+    <img class="profilePhoto" *ngIf="!userImage" src="assets/image/user.png" />
+  </div>
+  <p *ngIf="messageContent" class="messageContent">{{messageContent}}</p>
+  <img class="image" *ngIf="url" [src]="url" />
+  <div style="clear:both;" class="messageDetails">
+    <p>Sent By</p>
+    <p class="userName" *ngIf="userName">{{userName}}</p>
+    <p class="time">{{timeStamp | date:'shortTime'}}</p>
+  </div>
+  <br>
 </div>
+
+<div class="receiver" *ngIf="!isOwnMessage">
+  <div class="receiverProfile" *ngIf="!isOwnMessage">
+    <img class="profilePhoto" *ngIf="userImage" [src]="userImage" />
+    <img class="profilePhoto" *ngIf="!userImage" src="assets/image/userImage.jpg" />
+  </div>
+  <p *ngIf="messageContent" class="messageContent">{{messageContent}}</p>
+  <img class="image" *ngIf="url" [src]="url" />
+  <div class="messageDetails">
+    <p>Sent By</p>
+    <p class="userName" *ngIf="userName">{{userName}}</p>
+    <p class="time">{{timeStamp | date:'shortTime'}}</p>
+  </div>
+  <br>
+</div>
+

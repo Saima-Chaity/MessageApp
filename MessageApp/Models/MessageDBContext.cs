@@ -40,7 +40,6 @@ namespace MessageApp.Models
                 entity.Property(e => e.SentFile).HasColumnName("sentFile");
 
                 entity.Property(e => e.SentMessage)
-                    .IsRequired()
                     .HasColumnName("sentMessage")
                     .HasColumnType("text");
 
@@ -49,7 +48,7 @@ namespace MessageApp.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Message)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Message__userID__5CD6CB2B");
+                    .HasConstraintName("FK__Message__userID__628FA481");
             });
 
             modelBuilder.Entity<UserData>(entity =>

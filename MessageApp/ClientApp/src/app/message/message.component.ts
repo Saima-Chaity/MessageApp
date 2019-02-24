@@ -17,31 +17,28 @@ export class MessageComponent implements OnInit {
   userImage: any;
   timeStamp: any;
   isOwnMessage: boolean;
-  userId: string;
+  userId: number;
   profilePhoto: any;
 
   constructor(private authService: AuthService) {
-    //if (sessionStorage.getItem('userId')) {
-    //  this.userId = sessionStorage.getItem('userId');
-    //  this.authService.authenticateUser().subscribe(currentUser => {
-    //    if (currentUser) {
-    //      this.isOwnMessage = currentUser.email === this.userEmail;
-    //    }
-    //  });
-    //}
+    if (sessionStorage.getItem('userId')) {
+      this.userId = parseInt(sessionStorage.getItem('userId'));
+      this.authService.getUser(this.userId).subscribe(currentUser => {
+        if (currentUser) {
+          this.isOwnMessage = currentUser.json()["email"] === this.userEmail;
+        }
+      });
+    }
   }
 
   ngOnInit(chatMessage = this.chatMessage) {
-    this.authService.getCurrentUser().subscribe(data => {
-      this.userName = data.json()["name"];
-      if (data.json()["profilePhoto"] != null) {
-        this.profilePhoto = data.json()["profilePhoto"];
-      }
-    });
-    this.messageContent = chatMessage["sentMessage"];
+    this.userName = chatMessage["sendBy"];
+    this.userImage = "data:image/jpg;base64," + chatMessage["userProfileImage"];
+    this.userEmail = chatMessage["userEmail"];
+    this.messageContent = chatMessage["sendMessage"];
     this.timeStamp = chatMessage["sendTime"];
-    if (chatMessage["sentFile"] != null) {
-      this.url = "data:image/jpg;base64," + chatMessage["sentFile"];
+    if (chatMessage["sendImage"] != null) {
+      this.url = "data:image/jpg;base64," + chatMessage["sendImage"];
     }
   }
 

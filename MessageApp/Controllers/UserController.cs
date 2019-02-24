@@ -133,5 +133,15 @@ namespace MessageApp.Controllers
                 return stream.ReadToEnd();
             }
         }
+
+        [HttpGet("{message}")]
+        public IActionResult ValidateUser([FromQuery(Name = "userId")] int userId)
+        {
+            var query = (from user in db.UserData
+                         where user.UserId == userId
+                         select user).FirstOrDefault();
+
+            return new ObjectResult(query);
+        }
     }
 }
