@@ -1,0 +1,8 @@
+
+<p *ngIf="messageContent" class="messageContent">{{messageContent}}</p>
+<img class="image" *ngIf="url" [src]="url" />
+<div style="clear:both;" class="messageDetails">
+  <p>Sent By</p>
+  <p class="userName">{{userName}}</p>
+  <p class="time">{{timeStamp | date:'shortTime'}}</p>
+</div>

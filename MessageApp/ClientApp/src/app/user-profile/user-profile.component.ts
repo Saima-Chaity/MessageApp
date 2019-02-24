@@ -22,7 +22,6 @@ export class UserProfileComponent implements OnInit {
   currentUser() {
     this.authService.getCurrentUser().subscribe(data =>
     {
-      console.log(data.json());
       this.name = data.json()["name"];
       this.email = data.json()["email"];
       this.status = data.json()["status"];
