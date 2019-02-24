@@ -17,7 +17,6 @@ namespace MessageApp.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         public string userID { get; set; }
         private string userName { get; set; }
-        //private byte[] SendImage { get; set; }
         public MessageController(MessageDBContext _db)
         {
             db = _db;
@@ -64,7 +63,7 @@ namespace MessageApp.Controllers
         }
 
         [HttpPost("[action]")]
-        public string sendMessageAndFile([FromQuery(Name = "message")] string message)
+        public string SendMessageAndFile([FromQuery(Name = "message")] string message)
         {
             using (var stream = new StreamReader(Request.Body))
             {
@@ -83,6 +82,35 @@ namespace MessageApp.Controllers
                 DateTime dateTime = DateTime.Now;
 
                 msg.SentMessage = message;
+                msg.SentAt = dateTime;
+                msg.UserId = Int32.Parse(userID);
+                msg.SentFile = Convert.FromBase64String(imagePath);
+
+                db.Message.Add(msg);
+                db.SaveChanges();
+
+                return stream.ReadToEnd();
+            }
+        }
+
+        [HttpPost("[action]")]
+        public string SendFile()
+        {
+            using (var stream = new StreamReader(Request.Body))
+            {
+                CookieHelper cookieHelper = new CookieHelper(_httpContextAccessor, Request,
+                                             Response);
+
+                string userID = cookieHelper.Get("userID");
+
+                var query = (from user in db.UserData
+                             where user.UserId == Int32.Parse(userID)
+                             select user).FirstOrDefault();
+
+                string imagePath = stream.ReadToEnd();
+
+                Message msg = new Message();
+                DateTime dateTime = DateTime.Now;
                 msg.SentAt = dateTime;
                 msg.UserId = Int32.Parse(userID);
                 msg.SentFile = Convert.FromBase64String(imagePath);

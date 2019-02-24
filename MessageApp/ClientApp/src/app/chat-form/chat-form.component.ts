@@ -31,10 +31,16 @@ export class ChatFormComponent implements OnInit {
     if (this.message && !this.file) {
       this.chatService.sendMessage(this.message).subscribe();
       this.message = '';
+      window.location.reload();
     }
     if (this.message && this.file) {
       this.chatService.sendMessageAndFile(this.message, this.file).subscribe();
       this.message = '';
+      this.file = '';
+      window.location.reload();
+    }
+    if (this.file) {
+      this.chatService.sendFile(this.file).subscribe();
       this.file = '';
       window.location.reload();
     }
