@@ -9,7 +9,7 @@ namespace MessageApp.Models
         public int? UserId { get; set; }
         public string SentMessage { get; set; }
         public DateTime SentAt { get; set; }
-        public string SentFile { get; set; }
+        public byte[] SentFile { get; set; }
 
         public UserData User { get; set; }
     }

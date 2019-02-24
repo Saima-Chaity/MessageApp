@@ -18,6 +18,15 @@ namespace MessageApp.Models
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<UserData> UserData { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-URCM8S4;Database=MessageDB;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>(entity =>
@@ -28,9 +37,7 @@ namespace MessageApp.Models
                     .HasColumnName("sentAt")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.SentFile)
-                    .HasColumnName("sentFile")
-                    .HasColumnType("text");
+                entity.Property(e => e.SentFile).HasColumnName("sentFile");
 
                 entity.Property(e => e.SentMessage)
                     .IsRequired()
@@ -42,7 +49,7 @@ namespace MessageApp.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Message)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Message__userID__4BAC3F29");
+                    .HasConstraintName("FK__Message__userID__5CD6CB2B");
             });
 
             modelBuilder.Entity<UserData>(entity =>
