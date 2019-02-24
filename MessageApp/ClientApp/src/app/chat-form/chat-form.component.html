@@ -1,0 +1,16 @@
+<div class="button">
+  <input class="message"
+         [(ngModel)]="message"
+         (keydown)="handleSubmit($event)" />
+
+  <input class="file" type="file"
+         id="imageUploader" accept="image/*"
+         [(ngModel)]="file"
+         (keydown)="handleSubmit($event)"
+         (change)="onFileChanged($event)" />
+  <img class="image" *ngIf="url" [src]="url"><br />
+
+  <button class="btn btn-success" [disabled]="!message && !file" type="submit" (click)="send()">Send</button>
+</div>
+
+
