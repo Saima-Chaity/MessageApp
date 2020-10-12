@@ -1,10 +1,12 @@
 # Message-App
 
-This is a simple message application which allows authenticated users to send text messages and images. Basically, I have recreated the prevoius message application and handled the backend using Web Api.
+This is a simple message application which allows authenticated users to send text messages and images. 
 
 ### Technology Stack:
 
 - Angular
+
+- C#
 
 - Web API
 
